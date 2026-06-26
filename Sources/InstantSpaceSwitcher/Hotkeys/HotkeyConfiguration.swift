@@ -195,6 +195,18 @@ struct HotkeyCombination: Codable, Equatable {
       return ("F11", String(Character(UnicodeScalar(NSF11FunctionKey)!)))
     case kVK_F12:
       return ("F12", String(Character(UnicodeScalar(NSF12FunctionKey)!)))
+    case kVK_F13:
+      return ("F13", String(Character(UnicodeScalar(NSF13FunctionKey)!)))
+    case kVK_F14:
+      return ("F14", String(Character(UnicodeScalar(NSF14FunctionKey)!)))
+    case kVK_F15:
+      return ("F15", String(Character(UnicodeScalar(NSF15FunctionKey)!)))
+    case kVK_F16:
+      return ("F16", String(Character(UnicodeScalar(NSF16FunctionKey)!)))
+    case kVK_F17:
+      return ("F17", String(Character(UnicodeScalar(NSF17FunctionKey)!)))
+    case kVK_F18:
+      return ("F18", String(Character(UnicodeScalar(NSF18FunctionKey)!)))
     // Home/End/Page
     case kVK_Home:
       return ("↖", String(Character(UnicodeScalar(NSHomeFunctionKey)!)))
