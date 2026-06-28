@@ -2,8 +2,6 @@
 
 Native instant workspace switching on macOS. No more waiting for animations.
 
-https://github.com/user-attachments/assets/037422c9-3fb7-41cd-8da7-58d28c4c8eff
-
 ## Features
 
 - Does not require disabling SIP
@@ -12,54 +10,25 @@ https://github.com/user-attachments/assets/037422c9-3fb7-41cd-8da7-58d28c4c8eff
 
 A simple CLI is provided (`InstantSpaceSwitcher.app/Contents/MacOS/ISSCli --help`)
 
-## Installation
+## Local development (build, run, debug)
 
-### Homebrew
+## Prerequisites (macOS)
 
-```sh
-brew install --cask jurplel/tap/instant-space-switcher
-```
+Before running the build steps below, ensure your machine is set up with:
 
-After installation the app is located inside `/Applications/InstantSpaceSwitcher.app`
+1. A recent macOS version with Xcode installed.
 
-### Downloads
+2. Xcode Command Line Tools configured:
 
-Pre-built binaries are available through Github Releases [here](https://github.com/jurplel/InstantSpaceSwitcher/tags).
+`xcode-select -p`
 
-### Build from source
+If this command fails, install Command Line Tools first:
 
-```sh
-git clone https://github.com/jurplel/InstantSpaceSwitcher
-cd InstantSpaceSwitcher
-./dist/build.sh
-open ./build/InstantSpaceSwitcher.app
-```
+`xcode-select --install`
 
-## Local Development (Build, Run, Debug)
+3. Xcode license accepted (required by xcodebuild on fresh installs):
 
-### Prerequisites (macOS)
-
-Before running local build steps, ensure:
-
-1. Xcode is installed.
-
-2. Xcode Command Line Tools are configured:
-
-```sh
-xcode-select -p
-```
-
-If this command fails, install them first:
-
-```sh
-xcode-select --install
-```
-
-3. Xcode license has been accepted (needed on fresh installs):
-
-```sh
-sudo xcodebuild -license accept
-```
+`sudo xcodebuild -license accept`
 
 4. Accessibility permission can be granted to the app when prompted. The app builds without this, but global hotkeys and switching behavior depend on it.
 
