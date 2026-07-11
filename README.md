@@ -87,6 +87,32 @@ After reset, start the app again and re-allow it in:
 
 `System Settings -> Privacy & Security -> Accessibility`
 
+### Module cache errors after moving/renaming the project folder
+
+If you moved or renamed the repo directory, a stale `build/` directory can leave behind Clang module cache files (`.pcm`) that reference the old path, causing errors like:
+
+```
+error: precompiled file '.../ModuleCache/.../_Builtin_stdbool-....pcm' was compiled with module cache path '...', but the path is currently '...'
+```
+
+Fix by cleaning and rebuilding:
+
+```sh
+./dist/build.sh --debug --clean
+```
+
+### "Launch at login" fails with "Operation not permitted"
+
+macOS only allows `SMAppService` (used for the "Launch at login" checkbox) to register an app that is running from `/Applications` (or `~/Applications`). Running the local build straight from `./build/InstantSpaceSwitcher.app` will fail with this error.
+
+To test "Launch at login", copy the built app to `/Applications` and run it from there instead:
+
+```sh
+cp -R ./build/InstantSpaceSwitcher.app /Applications/ && open /Applications/InstantSpaceSwitcher.app
+```
+
+Since a codesign identity change (e.g. from rebuilding) can also invalidate the registration, re-copy and reopen from `/Applications` after each rebuild you want to test this with.
+
 ### Optional cleanup
 
 Remove local build artifacts:
