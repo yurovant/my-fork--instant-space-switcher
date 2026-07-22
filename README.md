@@ -30,7 +30,7 @@ If this command fails, install Command Line Tools first:
 
 4. Accessibility permission can be granted to the app when prompted. The app builds without this, but global hotkeys and switching behavior depend on it.
 
-### Building from source
+## Building from source
 
 If you also have a Homebrew-installed copy in `/Applications`, quit it first so only one process is running:
 
@@ -50,7 +50,7 @@ Run the local app:
 open ./build/InstantSpaceSwitcher.app
 ```
 
-### Fast debug loop
+## Fast debug loop
 
 For quick iteration without producing a `.app` bundle each time:
 
@@ -59,7 +59,7 @@ swift build
 ./.build/debug/InstantSpaceSwitcher
 ```
 
-### Useful debug commands
+## Useful debug commands
 
 Kill the running app:
 
@@ -73,7 +73,7 @@ Tail app logs from unified logging:
 log stream --style compact --predicate 'process == "InstantSpaceSwitcher"'
 ```
 
-### Reset Accessibility permissions
+## Reset Accessibility permissions
 
 If hotkeys stop working after rebuilding/moving the app, reset TCC Accessibility and relaunch:
 
@@ -85,7 +85,7 @@ After reset, start the app again and re-allow it in:
 
 `System Settings -> Privacy & Security -> Accessibility`
 
-### Module cache errors after moving/renaming the project folder
+## Module cache errors after moving/renaming the project folder
 
 If you moved or renamed the repo directory, a stale `build/` directory can leave behind Clang module cache files (`.pcm`) that reference the old path, causing errors like:
 
@@ -99,7 +99,7 @@ Fix by cleaning and rebuilding:
 ./dist/build.sh --debug --clean
 ```
 
-### "Launch at login" fails with "Operation not permitted"
+## "Launch at login" fails with "Operation not permitted"
 
 macOS only allows `SMAppService` (used for the "Launch at login" checkbox) to register an app that is running from `/Applications` (or `~/Applications`). Running the local build straight from `./build/InstantSpaceSwitcher.app` will fail with this error.
 
@@ -111,7 +111,7 @@ cp -R ./build/InstantSpaceSwitcher.app /Applications/ && open /Applications/Inst
 
 Since a codesign identity change (e.g. from rebuilding) can also invalidate the registration, re-copy and reopen from `/Applications` after each rebuild you want to test this with.
 
-### Optional cleanup
+## Optional cleanup
 
 Remove local build artifacts:
 
@@ -120,7 +120,7 @@ rm -rf ./build
 rm -rf ./.build
 ```
 
-### Troubleshooting / First time startup
+## Troubleshooting / First time startup
 
 1. When opening the app the first time you are likely to run into any of the following warnings:
 
