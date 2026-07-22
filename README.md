@@ -12,7 +12,7 @@ A simple CLI is provided (`InstantSpaceSwitcher.app/Contents/MacOS/ISSCli --help
 
 ## Local development (build, run, debug)
 
-## Prerequisites (macOS)
+## Prerequisites
 
 Before running the build steps below, ensure your machine is set up with:
 
@@ -32,7 +32,7 @@ If this command fails, install Command Line Tools first:
 
 4. Accessibility permission can be granted to the app when prompted. The app builds without this, but global hotkeys and switching behavior depend on it.
 
-### Build and run locally
+### Building from source
 
 If you also have a Homebrew-installed copy in `/Applications`, quit it first so only one process is running:
 
