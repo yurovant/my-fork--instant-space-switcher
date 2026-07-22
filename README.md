@@ -10,8 +10,6 @@ Native instant workspace switching on macOS. No more waiting for animations.
 
 A simple CLI is provided (`InstantSpaceSwitcher.app/Contents/MacOS/ISSCli --help`)
 
-## Local development (build, run, debug)
-
 ## Prerequisites
 
 Before running the build steps below, ensure your machine is set up with:
