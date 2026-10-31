@@ -2,8 +2,6 @@
 
 Native instant workspace switching on macOS. No more waiting for animations.
 
-https://github.com/user-attachments/assets/037422c9-3fb7-41cd-8da7-58d28c4c8eff
-
 ## Features
 
 - Does not require disabling SIP
@@ -12,29 +10,116 @@ https://github.com/user-attachments/assets/037422c9-3fb7-41cd-8da7-58d28c4c8eff
 
 A simple CLI is provided (`InstantSpaceSwitcher.app/Contents/MacOS/ISSCli --help`)
 
+## Local development (build, run, debug)
 
-## Installation
+## Prerequisites (macOS)
 
-### Homebrew
+Before running the build steps below, ensure your machine is set up with:
+
+1. A recent macOS version with Xcode installed.
+
+2. Xcode Command Line Tools configured:
+
+`xcode-select -p`
+
+If this command fails, install Command Line Tools first:
+
+`xcode-select --install`
+
+3. Xcode license accepted (required by xcodebuild on fresh installs):
+
+`sudo xcodebuild -license accept`
+
+4. Accessibility permission can be granted to the app when prompted. The app builds without this, but global hotkeys and switching behavior depend on it.
+
+### Build and run locally
+
+If you also have a Homebrew-installed copy in `/Applications`, quit it first so only one process is running:
 
 ```sh
-brew install --cask jurplel/tap/instant-space-switcher
+pkill -x InstantSpaceSwitcher
 ```
 
-After installation the app is located inside `/Applications/InstantSpaceSwitcher.app`
-
-
-### Downloads
-
-Pre-built binaries are available through Github Releases [here](https://github.com/jurplel/InstantSpaceSwitcher/tags).
-
-### Build from source
+Build a local app bundle:
 
 ```sh
-git clone https://github.com/jurplel/InstantSpaceSwitcher
-cd InstantSpaceSwitcher
-./dist/build.sh
+./dist/build.sh --debug
+```
+
+Run the local app:
+
+```sh
 open ./build/InstantSpaceSwitcher.app
+```
+
+### Fast debug loop
+
+For quick iteration without producing a `.app` bundle each time:
+
+```sh
+swift build
+./.build/debug/InstantSpaceSwitcher
+```
+
+### Useful debug commands
+
+Kill the running app:
+
+```sh
+pkill -x InstantSpaceSwitcher
+```
+
+Tail app logs from unified logging:
+
+```sh
+log stream --style compact --predicate 'process == "InstantSpaceSwitcher"'
+```
+
+### Reset Accessibility permissions
+
+If hotkeys stop working after rebuilding/moving the app, reset TCC Accessibility and relaunch:
+
+```sh
+tccutil reset Accessibility com.interversehq.InstantSpaceSwitcher
+```
+
+After reset, start the app again and re-allow it in:
+
+`System Settings -> Privacy & Security -> Accessibility`
+
+### Module cache errors after moving/renaming the project folder
+
+If you moved or renamed the repo directory, a stale `build/` directory can leave behind Clang module cache files (`.pcm`) that reference the old path, causing errors like:
+
+```
+error: precompiled file '.../ModuleCache/.../_Builtin_stdbool-....pcm' was compiled with module cache path '...', but the path is currently '...'
+```
+
+Fix by cleaning and rebuilding:
+
+```sh
+./dist/build.sh --debug --clean
+```
+
+### "Launch at login" fails with "Operation not permitted"
+
+macOS only allows `SMAppService` (used for the "Launch at login" checkbox) to register an app that is running from `/Applications` (or `~/Applications`). Running the local build straight from `./build/InstantSpaceSwitcher.app` will fail with this error.
+
+To test "Launch at login", copy the built app to `/Applications` and run it from there instead:
+
+```sh
+cp -R ./build/InstantSpaceSwitcher.app /Applications/ && open /Applications/InstantSpaceSwitcher.app
+```
+
+Since a codesign identity change (e.g. from rebuilding) can also invalidate the registration, re-copy and reopen from `/Applications` after each rebuild you want to test this with.
+
+### Optional cleanup
+
+Remove local build artifacts:
+
+```sh
+rm -rf ./build
+rm -rf ./.build
 ```
 
 ### Troubleshooting / First time startup
@@ -54,12 +139,13 @@ Please follow the instructions [here](https://wiki.hacks.guide/wiki/Open_unsigne
 3. Then open the app from the Applications folder and the configuration window should appear.
 
 ## Background
-When I first bought a high refresh rate monitor, around ~2018, I could tell that the space switching animation was longer because it had scaled with the refresh rate. Because of this, I eventually stopped using spaces altogether, and have been looking for a solution ever since. 
+
+When I first bought a high refresh rate monitor, around ~2018, I could tell that the space switching animation was longer because it had scaled with the refresh rate. Because of this, I eventually stopped using spaces altogether, and have been looking for a solution ever since.
 
 The workaround in this project is to create a synthetic trackpad gesture with an artificially high velocity. This effectively skips the animation.
 
 If you work at Apple, and your team owns the space switching animation, please fix this long-standing bug[^2] (and let us disable the animation natively, please).
 
 [^1]: This happens because the app is not signed, which requires a costly Apple Developer account
-[^2]: And I know for a fact there is a rdar for this
 
+[^2]: And I know for a fact there is a rdar for this
